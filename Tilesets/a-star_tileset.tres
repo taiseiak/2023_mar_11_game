@@ -1,0 +1,25 @@
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://w22ttvploon4"]
+
+[ext_resource type="Texture2D" uid="uid://dt4p4wllbj3u" path="res://PNGs/2023-march-11-tile.png" id="1_s1bv1"]
+[ext_resource type="Texture2D" uid="uid://bp73peog13y4u" path="res://PNGs/2023-mar-11-base-tile.png" id="2_obh8e"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ofg4t"]
+resource_name = "Obstacles"
+texture = ExtResource("1_s1bv1")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_if2ug"]
+resource_name = "Grids"
+texture = ExtResource("2_obh8e")
+0:0/next_alternative_id = 2
+0:0/0 = 0
+0:0/0/custom_data_0 = true
+1:0/0 = 0
+1:0/0/custom_data_0 = true
+
+[resource]
+custom_data_layer_0/name = "Moveable"
+custom_data_layer_0/type = 1
+sources/2 = SubResource("TileSetAtlasSource_if2ug")
+sources/0 = SubResource("TileSetAtlasSource_ofg4t")
+tile_proxies/coords_level = [[0, Vector2i(0, 0)], [2, Vector2i(0, 0)], [1, Vector2i(0, 0)], [2, Vector2i(1, 0)]]

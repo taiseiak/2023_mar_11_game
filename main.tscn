@@ -1,0 +1,131 @@
+[gd_scene load_steps=7 format=3 uid="uid://xiw4r5pya0yx"]
+
+[ext_resource type="TileSet" uid="uid://w22ttvploon4" path="res://Tilesets/a-star_tileset.tres" id="1_h7tmq"]
+[ext_resource type="Texture2D" uid="uid://bc0ynokfxx437" path="res://PNGs/2023-mar-11-character.png" id="2_7lhd2"]
+[ext_resource type="Script" path="res://Scripts/mouse_hover.gd" id="3_01rod"]
+
+[sub_resource type="Animation" id="Animation_fklw8"]
+length = 0.334
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_7lhd2")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = false
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.167),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1awuc"]
+_data = {
+"default": SubResource("Animation_fklw8")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2lols"]
+size = Vector2(16, 16)
+
+[node name="Main" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("1_h7tmq")
+format = 2
+layer_0/name = "Grid"
+layer_0/z_index = -2
+layer_0/tile_data = PackedInt32Array(-196614, 0, 0, -131078, 0, 0, -65542, 0, 0, -6, 0, 0, 65530, 0, 0, 131066, 0, 0, 196602, 0, 0, 262138, 0, 0, -196613, 0, 0, -131077, 2, 0, -65541, 2, 0, -5, 2, 0, 65531, 2, 0, 131067, 2, 0, 196603, 2, 0, 262139, 0, 0, -196612, 0, 0, -131076, 2, 0, -65540, 2, 0, -4, 2, 0, 65532, 2, 0, 131068, 2, 0, 196604, 2, 0, 262140, 0, 0, -196611, 0, 0, -131075, 2, 0, -65539, 2, 0, -3, 2, 0, 65533, 2, 0, 131069, 2, 0, 196605, 2, 0, 262141, 0, 0, -196610, 0, 0, -131074, 2, 0, -65538, 2, 0, -2, 2, 0, 65534, 2, 0, 131070, 2, 0, 196606, 2, 0, 262142, 0, 0, -196609, 0, 0, -131073, 2, 0, -65537, 2, 0, -1, 2, 0, 65535, 2, 0, 131071, 2, 0, 196607, 2, 0, 262143, 0, 0, -262144, 0, 0, -196608, 2, 0, -131072, 2, 0, -65536, 2, 0, 0, 2, 0, 65536, 2, 0, 131072, 2, 0, 196608, 0, 0, -262143, 0, 0, -196607, 2, 0, -131071, 2, 0, -65535, 2, 0, 1, 2, 0, 65537, 2, 0, 131073, 2, 0, 196609, 0, 0, -262142, 0, 0, -196606, 2, 0, -131070, 2, 0, -65534, 2, 0, 2, 2, 0, 65538, 2, 0, 131074, 2, 0, 196610, 0, 0, -262141, 0, 0, -196605, 2, 0, -131069, 2, 0, -65533, 2, 0, 3, 2, 0, 65539, 2, 0, 131075, 2, 0, 196611, 0, 0, -262140, 0, 0, -196604, 2, 0, -131068, 2, 0, -65532, 2, 0, 4, 2, 0, 65540, 2, 0, 131076, 2, 0, 196612, 0, 0, -262139, 0, 0, -196603, 0, 0, -131067, 0, 0, -65531, 0, 0, 5, 0, 0, 65541, 0, 0, 131077, 0, 0, 196613, 0, 0)
+layer_1/name = "Highlights"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = -1
+layer_1/tile_data = PackedInt32Array()
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(5, 5)
+
+[node name="AStarGraphMaker" type="Node2D" parent="."]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture_filter = 1
+texture = ExtResource("2_7lhd2")
+centered = false
+hframes = 2
+metadata/_aseprite_wizard_config_ = {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"op_exp": false,
+"player": "Player/AnimationPlayer",
+"source": "res://Aseprite/2023-mar-11-character.aseprite"
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+root_node = NodePath("../Sprite2D")
+autoplay = "default"
+libraries = {
+"": SubResource("AnimationLibrary_1awuc")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_2lols")
+
+[node name="MouseHoverNode" type="Node2D" parent="." node_paths=PackedStringArray("tilemap")]
+script = ExtResource("3_01rod")
+tilemap = NodePath("../TileMap")
