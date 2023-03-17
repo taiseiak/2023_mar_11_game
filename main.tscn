@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://xiw4r5pya0yx"]
+[gd_scene load_steps=9 format=3 uid="uid://xiw4r5pya0yx"]
 
 [ext_resource type="TileSet" uid="uid://w22ttvploon4" path="res://Tilesets/a-star_tileset.tres" id="1_h7tmq"]
+[ext_resource type="Script" path="res://Scripts/a_star_graph_maker.gd" id="2_2gco1"]
 [ext_resource type="Texture2D" uid="uid://bc0ynokfxx437" path="res://PNGs/2023-mar-11-character.png" id="2_7lhd2"]
+[ext_resource type="Script" path="res://Scripts/player.gd" id="2_ck81m"]
 [ext_resource type="Script" path="res://Scripts/mouse_hover.gd" id="3_01rod"]
 
 [sub_resource type="Animation" id="Animation_fklw8"]
@@ -96,8 +98,11 @@ layer_1/tile_data = PackedInt32Array()
 zoom = Vector2(5, 5)
 
 [node name="AStarGraphMaker" type="Node2D" parent="."]
+script = ExtResource("2_2gco1")
 
-[node name="Player" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("tilemap")]
+script = ExtResource("2_ck81m")
+tilemap = NodePath("../TileMap")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 texture_filter = 1
@@ -129,3 +134,5 @@ shape = SubResource("RectangleShape2D_2lols")
 [node name="MouseHoverNode" type="Node2D" parent="." node_paths=PackedStringArray("tilemap")]
 script = ExtResource("3_01rod")
 tilemap = NodePath("../TileMap")
+
+[connection signal="cell_clicked" from="MouseHoverNode" to="Player" method="_on_mouse_hover_node_cell_clicked"]
