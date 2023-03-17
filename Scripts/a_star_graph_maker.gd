@@ -6,6 +6,8 @@ extends Node
 ## that can be used to implement a custom version of the A* path finding
 ## algorithm.
 
+signal node_path_created(node_path: Array[Vector2i])
+
 ## The tilemap to generate the graph from.
 @export
 var tilemap: TileMap
@@ -31,13 +33,13 @@ var diagonal_g_cell_value: int = 14
 # Neighbors are sorted by clockwise order from the right.
 var CELL_NEIGHBORS_TO_CHECK = [
 	TileSet.CELL_NEIGHBOR_RIGHT_SIDE,
-	TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_CORNER, 
+#	TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_CORNER, 
 	TileSet.CELL_NEIGHBOR_BOTTOM_SIDE,
-	TileSet.CELL_NEIGHBOR_BOTTOM_LEFT_CORNER,
+#	TileSet.CELL_NEIGHBOR_BOTTOM_LEFT_CORNER,
 	TileSet.CELL_NEIGHBOR_LEFT_SIDE,
-	TileSet.CELL_NEIGHBOR_TOP_LEFT_CORNER,
+#	TileSet.CELL_NEIGHBOR_TOP_LEFT_CORNER,
 	TileSet.CELL_NEIGHBOR_TOP_SIDE,
-	TileSet.CELL_NEIGHBOR_TOP_RIGHT_CORNER
+#	TileSet.CELL_NEIGHBOR_TOP_RIGHT_CORNER
 ]
 
 @export
@@ -105,14 +107,15 @@ func _create_graph(
 						nodes_to_be_evaluated_heap.insert(new_cell)
 					node_evaluation_dict[cell_neighbor_position] = new_cell
 	
-	var print_node = current_node
+	var path_node = current_node
+	var node_path = []
 	tilemap.clear_layer(2)
-	while true:
-		print(print_node)
-		tilemap.set_cell(2, print_node["cell"], 2, Vector2i(1, 0))
-		if print_node["parent"] == null:
-			break
-		print_node = node_evaluation_dict[print_node["parent"]]
+	while path_node["parent"] != null:
+		node_path.append(path_node["cell"])
+		tilemap.set_cell(2, path_node["cell"], 2, Vector2i(1, 0))
+		path_node = node_evaluation_dict[path_node["parent"]]
+	node_path.reverse()
+	node_path_created.emit(node_path)
 
 func _calculate_f_cost(
 	cell: Vector2i,

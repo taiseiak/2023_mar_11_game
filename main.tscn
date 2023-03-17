@@ -112,15 +112,14 @@ allowed_tiles = "Moveable"
 player_resource = ExtResource("4_bop26")
 
 [node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("tilemap")]
-position = Vector2(16, -32)
+position = Vector2(8, 8)
 script = ExtResource("2_ck81m")
 tilemap = NodePath("../TileMap")
 player_resource = ExtResource("4_bop26")
 
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
+[node name="PlayerSprite" type="Sprite2D" parent="Player"]
 texture_filter = 1
 texture = ExtResource("2_7lhd2")
-centered = false
 hframes = 2
 metadata/_aseprite_wizard_config_ = {
 "layer": "",
@@ -129,23 +128,22 @@ metadata/_aseprite_wizard_config_ = {
 "o_name": "",
 "only_visible": false,
 "op_exp": false,
-"player": "Player/AnimationPlayer",
+"player": "Player/PlayerSprite/AnimationPlayer",
 "source": "res://Aseprite/2023-mar-11-character.aseprite"
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
-root_node = NodePath("../Sprite2D")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/PlayerSprite"]
 autoplay = "default"
 libraries = {
 "": SubResource("AnimationLibrary_1awuc")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_2lols")
 
 [node name="MouseHoverNode" type="Node2D" parent="." node_paths=PackedStringArray("tilemap")]
 script = ExtResource("3_01rod")
 tilemap = NodePath("../TileMap")
 
+[connection signal="node_path_created" from="AStarGraphMaker" to="Player" method="_on_a_star_graph_maker_node_path_created"]
 [connection signal="cell_clicked" from="MouseHoverNode" to="AStarGraphMaker" method="_on_mouse_hover_node_cell_clicked"]
