@@ -50,29 +50,69 @@ func _create_graph(
 	start_cell: Vector2i,
 	end_cell: Vector2i,
 	layer: int):
-	# See documentation at https://docs.godotengine.org/en/stable/classes/class_tilemap.html
-	var cells_in_layer = tilemap.get_used_cells(layer)
 	# Set of nodes to be evaluated
-	var nodes_to_be_evaluated = minheap.new()
-	nodes_to_be_evaluated.insert({"cell": start_cell, "f_cost": 0})
-	# Set of nodes already evaluated
-	var nodes_already_evaluated = []
+	var nodes_to_be_evaluated_heap = minheap.new()
+	nodes_to_be_evaluated_heap.insert(
+		{"cell": start_cell,
+		"f_cost": 0,
+		"parent": null,
+		"evaluated": false})
+		
+	var node_evaluation_dict = {}
 	
-	var current_cell = Vector2i(0, 0)
+	# We set the current node to the start just for the first iteration
+	var current_node = {
+		"cell": start_cell,
+		"f_cost": 0,
+		"parent": null,
+		"evaluated": false}
 	
+	print("Player cell coordinates", start_cell)
+	print("End cell coordinates", end_cell)
 	# End the loop when we find the target cell or evaluate all cells in 
-	while current_cell != end_cell and nodes_to_be_evaluated.size > 0:
-		var current_node = nodes_to_be_evaluated.remove()
+	while nodes_to_be_evaluated_heap.size > 0:
+		current_node = nodes_to_be_evaluated_heap.remove()
+		current_node["evaluated"] = true
+		node_evaluation_dict[current_node["cell"]] = current_node
+		
+		if current_node["cell"] == end_cell:
+			break
+		
 		for cell_neighbor in CELL_NEIGHBORS_TO_CHECK:
 			var cell_neighbor_position = tilemap.get_neighbor_cell(current_node["cell"], cell_neighbor)
 			var neighbor_cell_data = tilemap.get_cell_tile_data(layer, cell_neighbor_position)
-			if allowed_tiles == null or neighbor_cell_data.get_custom_data(allowed_tiles):
-				var f_cost = _calculate_f_cost(
-					cell_neighbor_position,
-					current_node["cell"],
-					end_cell,
-					current_node["f_cost"])
-				print("Cell: ", cell_neighbor_position, " f_cost: ", f_cost)
+			
+			if cell_neighbor_position in node_evaluation_dict and node_evaluation_dict[cell_neighbor_position]["evaluated"]:
+				continue
+				
+			if allowed_tiles != null and not neighbor_cell_data.get_custom_data(allowed_tiles):
+				continue
+				
+			var f_cost = _calculate_f_cost(
+				cell_neighbor_position,
+				current_node["cell"],
+				end_cell,
+				current_node["f_cost"])
+				
+			if (cell_neighbor_position not in node_evaluation_dict 
+				or f_cost < node_evaluation_dict[cell_neighbor_position]["f_cost"]):
+					var new_cell = {
+						"cell": cell_neighbor_position,
+						"f_cost": f_cost,
+						"parent": current_node["cell"],
+						"evaluated": false}
+					if cell_neighbor_position not in node_evaluation_dict:
+						nodes_to_be_evaluated_heap.insert(new_cell)
+					node_evaluation_dict[cell_neighbor_position] = new_cell
+	
+	var print_node = current_node
+	tilemap.clear_layer(2)
+	while true:
+		print(print_node)
+		tilemap.set_cell(2, print_node["cell"], 2, Vector2i(1, 0))
+		if print_node["parent"] == null:
+			break
+		print_node = node_evaluation_dict[print_node["parent"]]
 
 func _calculate_f_cost(
 	cell: Vector2i,

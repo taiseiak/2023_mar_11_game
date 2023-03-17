@@ -10,8 +10,8 @@ var heap_array: Array[Dictionary] = []
 var cost_callback: Callable
 
 func _init(
-	_cost_callback: Callable = func(element): return element["f_value"],
-	lowest_element: Dictionary = {"f_value": -INF}):
+	_cost_callback: Callable = func(element): return element["f_cost"],
+	lowest_element: Dictionary = {"f_cost": -INF}):
 	size = 0
 	# Initialize array with most minimun node.
 	heap_array = [lowest_element]
