@@ -10,10 +10,10 @@ extends Node
 @export
 var tilemap: TileMap
 
-# A list of custom data label names that can be used to create the graph. If
-# empty, then all tiles will be used to create the graph.
+# Name of the custom data label that determines if a cell can be included in
+# the graph. Must be a `bool` type custom label.
 @export
-var allowed_tiles: Array[String]
+var allowed_tiles: String
 
 # The resource to store the graph information.
 @export
@@ -26,14 +26,22 @@ var neighbor_g_cell_value: int = 10
 # The G value of one diagonal cell away from a cell.
 # Approximated with pythagoras value.
 @export
-var diagonal_g_cell_balue: int = 14
+var diagonal_g_cell_value: int = 14
 
-#var CELL_NEIGHBORS_TO_CHECK = [
-#	TileMap.CELL_NEIGHBOR_RIGHT_SIDE,
-#	TileMap.CELL_NEIGHBOR_BOTTOM_RIGHT_CORNER,
-#	TileMap.CELL_NEIGHBOR_BOTTOM_SIDE,54
-#	TileMap.CELL_NEIGHBOR_BOTTOM_LEFT_SIDE
-#]
+# Neighbors are sorted by clockwise order from the right.
+var CELL_NEIGHBORS_TO_CHECK = [
+	TileSet.CELL_NEIGHBOR_RIGHT_SIDE,
+	TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_CORNER, 
+	TileSet.CELL_NEIGHBOR_BOTTOM_SIDE,
+	TileSet.CELL_NEIGHBOR_BOTTOM_LEFT_CORNER,
+	TileSet.CELL_NEIGHBOR_LEFT_SIDE,
+	TileSet.CELL_NEIGHBOR_TOP_LEFT_CORNER,
+	TileSet.CELL_NEIGHBOR_TOP_SIDE,
+	TileSet.CELL_NEIGHBOR_TOP_RIGHT_CORNER
+]
+
+@export
+var player_resource: PlayerResource
 
 # Creates a graph.
 # Based on A* Pathfinding (E01: algorithm explanation) by Sebastian Lague.
@@ -41,8 +49,7 @@ var diagonal_g_cell_balue: int = 14
 func _create_graph(
 	start_cell: Vector2i,
 	end_cell: Vector2i,
-	layer: int,
-	allowed_tiles: Array[String]):
+	layer: int):
 	# See documentation at https://docs.godotengine.org/en/stable/classes/class_tilemap.html
 	var cells_in_layer = tilemap.get_used_cells(layer)
 	# Set of nodes to be evaluated
@@ -54,8 +61,42 @@ func _create_graph(
 	var current_cell = Vector2i(0, 0)
 	
 	# End the loop when we find the target cell or evaluate all cells in 
-	while current_cell == end_cell:
-		var current_node = nodes_already_evaluated.remove()
-		for i in range(0, 15, 1):
-			print(tilemap.get_neighbor_cell(current_node["cell"], i))
+	while current_cell != end_cell and nodes_to_be_evaluated.size > 0:
+		var current_node = nodes_to_be_evaluated.remove()
+		for cell_neighbor in CELL_NEIGHBORS_TO_CHECK:
+			var cell_neighbor_position = tilemap.get_neighbor_cell(current_node["cell"], cell_neighbor)
+			var neighbor_cell_data = tilemap.get_cell_tile_data(layer, cell_neighbor_position)
+			if allowed_tiles == null or neighbor_cell_data.get_custom_data(allowed_tiles):
+				var f_cost = _calculate_f_cost(
+					cell_neighbor_position,
+					current_node["cell"],
+					end_cell,
+					current_node["f_cost"])
+				print("Cell: ", cell_neighbor_position, " f_cost: ", f_cost)
 
+func _calculate_f_cost(
+	cell: Vector2i,
+	starting_cell: Vector2i,
+	target_cell: Vector2i,
+	f_cost: int = 0):
+		var final_f_cost = f_cost
+		# If one of the coords is the same, then we are right next to the
+		# starting cell.
+		if cell.x == starting_cell.x or cell.y == starting_cell.y:
+			final_f_cost += neighbor_g_cell_value
+		else:
+			final_f_cost += diagonal_g_cell_value
+		
+		var distance_vector = (target_cell - cell).abs()
+		# Calculate the smaller distance between rise vs run to see how many
+		# diagonals we have to move
+		var diagonals_to_move = mini(distance_vector.x, distance_vector.y)
+		final_f_cost += diagonals_to_move * diagonal_g_cell_value
+		
+		var neighbors_to_move = max(distance_vector.x, distance_vector.y) - diagonals_to_move
+		final_f_cost += neighbors_to_move * neighbor_g_cell_value
+		
+		return final_f_cost
+
+func _on_mouse_hover_node_cell_clicked(cell):
+	_create_graph(player_resource.cell, cell, 0)

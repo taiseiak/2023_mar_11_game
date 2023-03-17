@@ -10,12 +10,12 @@ var heap_array: Array[Dictionary] = []
 var cost_callback: Callable
 
 func _init(
-	cost_callback: Callable = func(element): return element["f_value"],
+	_cost_callback: Callable = func(element): return element["f_value"],
 	lowest_element: Dictionary = {"f_value": -INF}):
 	size = 0
 	# Initialize array with most minimun node.
 	heap_array = [lowest_element]
-	cost_callback = cost_callback
+	cost_callback = _cost_callback
 
 func remove():
 	if heap_array.size() == 1:
@@ -66,7 +66,7 @@ func _get_min_child_position(position):
 			return _get_right_child(position)
 
 func _get_parent(position: int) -> int:
-	return floori(position / 2)
+	return floori(position / 2.0)
 
 func _get_left_child(position: int):
 	return position * 2
