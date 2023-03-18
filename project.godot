@@ -34,6 +34,13 @@ select={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Characters"
+2d_physics/layer_2="Pickups"
+2d_physics/layer_3="Environment"
+2d_physics/layer_4="Holdable_characters"
+
 [rendering]
 
 renderer/rendering_method="mobile"

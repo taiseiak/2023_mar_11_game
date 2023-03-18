@@ -6,32 +6,12 @@ extends Node
 ## that can be used to implement a custom version of the A* path finding
 ## algorithm.
 
+
 signal node_path_created(node_path: Array[Vector2i])
 
-## The tilemap to generate the graph from.
-@export
-var tilemap: TileMap
-
-# Name of the custom data label that determines if a cell can be included in
-# the graph. Must be a `bool` type custom label.
-@export
-var allowed_tiles: String
-
-# The resource to store the graph information.
-@export
-var a_star_graph_resource: AStarGraph
-
-# The value of one G cell away from a cell.
-@export
-var neighbor_g_cell_value: int = 10
-
-# The G value of one diagonal cell away from a cell.
-# Approximated with pythagoras value.
-@export
-var diagonal_g_cell_value: int = 14
 
 # Neighbors are sorted by clockwise order from the right.
-var CELL_NEIGHBORS_TO_CHECK = [
+const CELL_NEIGHBORS_TO_CHECK = [
 	TileSet.CELL_NEIGHBOR_RIGHT_SIDE,
 #	TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_CORNER, 
 	TileSet.CELL_NEIGHBOR_BOTTOM_SIDE,
@@ -42,8 +22,21 @@ var CELL_NEIGHBORS_TO_CHECK = [
 #	TileSet.CELL_NEIGHBOR_TOP_RIGHT_CORNER
 ]
 
-@export
-var player_resource: PlayerResource
+
+## The tilemap to generate the graph from.
+@export var tilemap: TileMap
+# Name of the custom data label that determines if a cell can be included in
+# the graph. Must be a `bool` type custom label.
+@export var allowed_tiles: String
+# The resource to store the graph information.
+@export var a_star_graph_resource: AStarGraph
+# The value of one G cell away from a cell.
+@export var neighbor_g_cell_value: int = 10
+# The G value of one diagonal cell away from a cell.
+# Approximated with pythagoras value.
+@export var diagonal_g_cell_value: int = 14
+@export var player_resource: PlayerResource
+
 
 # Creates a graph.
 # Based on A* Pathfinding (E01: algorithm explanation) by Sebastian Lague.
@@ -68,9 +61,7 @@ func _create_graph(
 		"f_cost": 0,
 		"parent": null,
 		"evaluated": false}
-	
-	print("Player cell coordinates", start_cell)
-	print("End cell coordinates", end_cell)
+
 	# End the loop when we find the target cell or evaluate all cells in 
 	while nodes_to_be_evaluated_heap.size > 0:
 		current_node = nodes_to_be_evaluated_heap.remove()
@@ -117,6 +108,7 @@ func _create_graph(
 	node_path.reverse()
 	node_path_created.emit(node_path)
 
+
 func _calculate_f_cost(
 	cell: Vector2i,
 	starting_cell: Vector2i,
@@ -140,6 +132,7 @@ func _calculate_f_cost(
 		final_f_cost += neighbors_to_move * neighbor_g_cell_value
 		
 		return final_f_cost
+
 
 func _on_mouse_hover_node_cell_clicked(cell):
 	_create_graph(player_resource.cell, cell, 0)

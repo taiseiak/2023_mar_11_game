@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://xiw4r5pya0yx"]
+[gd_scene load_steps=18 format=3 uid="uid://xiw4r5pya0yx"]
 
 [ext_resource type="TileSet" uid="uid://w22ttvploon4" path="res://Tilesets/a-star_tileset.tres" id="1_h7tmq"]
 [ext_resource type="Script" path="res://Scripts/a_star_graph_maker.gd" id="2_2gco1"]
@@ -6,6 +6,10 @@
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_ck81m"]
 [ext_resource type="Script" path="res://Scripts/mouse_hover.gd" id="3_01rod"]
 [ext_resource type="Resource" uid="uid://diajsj1xxbp2x" path="res://Resources/player_resource.tres" id="4_bop26"]
+[ext_resource type="Texture2D" uid="uid://cju37jn6dd21m" path="res:///2023-mar-11-character.png" id="5_babgn"]
+[ext_resource type="PackedScene" uid="uid://blsrln5ga8u8x" path="res://Scenes/PickupHolder.tscn" id="7_vg3gv"]
+[ext_resource type="PackedScene" uid="uid://b3v0v0asdnqom" path="res://Scenes/pickup_2d.tscn" id="8_cu0ha"]
+[ext_resource type="Resource" uid="uid://boqf80k31o8gi" path="res://Resources/sword.tres" id="10_613t6"]
 
 [sub_resource type="Animation" id="Animation_fklw8"]
 length = 0.334
@@ -71,8 +75,292 @@ tracks/4/keys = {
 "values": [0, 1]
 }
 
+[sub_resource type="Animation" id="Animation_wrynm"]
+length = 0.334
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_babgn")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = false
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.167),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../PickupHolder:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.166984),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(-5, 4), Vector2(-5, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_fci4e"]
+length = 0.668
+loop_mode = 1
+step = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_babgn")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = false
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.167, 0.334, 0.501),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [2, 3, 4, 3]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../PickupHolder:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.167314, 0.334469, 0.500979),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(-5, 3), Vector2(-5, 4), Vector2(-5, 5), Vector2(-5, 4)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../PickupHolder:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_hx5dd"]
+length = 1.002
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_babgn")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = false
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.167, 0.334, 0.501, 0.668, 0.835),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [5, 6, 7, 8, 9, 10]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../PickupHolder:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.168988, 0.350574, 0.669523, 0.836895),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(-4, -2), Vector2(-5, -3), Vector2(5, 6), Vector2(6, 6), Vector2(-1, 3)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../PickupHolder:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.350574, 0.836895),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [-1.57079, 1.57079, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_3sadu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../PickupHolder:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-5, 3)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../PickupHolder:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1awuc"]
 _data = {
+"Attack": SubResource("Animation_hx5dd"),
+"Idle": SubResource("Animation_wrynm"),
+"RESET": SubResource("Animation_3sadu"),
+"Walk": SubResource("Animation_fci4e"),
 "default": SubResource("Animation_fklw8")
 }
 
@@ -113,14 +401,25 @@ player_resource = ExtResource("4_bop26")
 
 [node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("tilemap")]
 position = Vector2(8, 8)
+collision_layer = 9
+collision_mask = 6
 script = ExtResource("2_ck81m")
 tilemap = NodePath("../TileMap")
 player_resource = ExtResource("4_bop26")
 
+[node name="AsepriteAnimationPlayer" type="AnimationPlayer" parent="Player"]
+root_node = NodePath("../PlayerSprite")
+autoplay = "Idle"
+libraries = {
+"": SubResource("AnimationLibrary_1awuc")
+}
+
 [node name="PlayerSprite" type="Sprite2D" parent="Player"]
 texture_filter = 1
-texture = ExtResource("2_7lhd2")
-hframes = 2
+texture = ExtResource("5_babgn")
+hframes = 4
+vframes = 3
+frame = 9
 metadata/_aseprite_wizard_config_ = {
 "layer": "",
 "o_ex_p": "",
@@ -128,22 +427,24 @@ metadata/_aseprite_wizard_config_ = {
 "o_name": "",
 "only_visible": false,
 "op_exp": false,
-"player": "Player/PlayerSprite/AnimationPlayer",
+"player": "Player/PlayerSprite/AsepriteAnimationPlayer",
 "source": "res://Aseprite/2023-mar-11-character.aseprite"
-}
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/PlayerSprite"]
-autoplay = "default"
-libraries = {
-"": SubResource("AnimationLibrary_1awuc")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("RectangleShape2D_2lols")
 
+[node name="PickupHolder" parent="Player" instance=ExtResource("7_vg3gv")]
+position = Vector2(-5, 3)
+rotation = 0.0
+
 [node name="MouseHoverNode" type="Node2D" parent="." node_paths=PackedStringArray("tilemap")]
 script = ExtResource("3_01rod")
 tilemap = NodePath("../TileMap")
+
+[node name="Pickup2D" parent="." instance=ExtResource("8_cu0ha")]
+position = Vector2(24, -24)
+pickup_resource = ExtResource("10_613t6")
 
 [connection signal="node_path_created" from="AStarGraphMaker" to="Player" method="_on_a_star_graph_maker_node_path_created"]
 [connection signal="cell_clicked" from="MouseHoverNode" to="AStarGraphMaker" method="_on_mouse_hover_node_cell_clicked"]

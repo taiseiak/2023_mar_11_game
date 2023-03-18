@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://blsrln5ga8u8x"]
+
+[ext_resource type="Script" path="res://Scripts/pickup_holder.gd" id="1_osfrw"]
+
+[node name="PickupHolder" type="Node2D"]
+position = Vector2(6, 6)
+rotation = 1.57079
+script = ExtResource("1_osfrw")
