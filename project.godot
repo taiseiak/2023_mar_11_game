@@ -15,6 +15,11 @@ run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.0", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Events="*res://Scripts/events.gd"
+Constants="*res://Scripts/constants.gd"
+
 [display]
 
 window/size/window_width_override=1920

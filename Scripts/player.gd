@@ -1,19 +1,33 @@
 @tool
 extends CharacterBody2D
 
+
 @export
 var tilemap: TileMap
 
 @export
 var player_resource: PlayerResource
 
+
 var tween: Tween
+var is_my_turn: bool = false
+
 
 func _ready():
+	Events.turn_changed.connect(
+			func(turn_group): is_my_turn = turn_group == "Players")
+	Events.cell_selected.connect(
+			func(cell):
+				if is_my_turn:
+					_move_to_cell(cell))
 	var cell_on_map = tilemap.local_to_map(position)
 	player_resource.cell = cell_on_map
 
-func _on_a_star_graph_maker_node_path_created(node_path):
+
+func _move_to_cell(cell: Vector2i):
+	var node_path = $AStarGraphMaker.create_graph(player_resource.cell, cell, 
+			Constants.MOVEABLE_LAYER)
+
 	if node_path.size() <= 0:
 		return
 

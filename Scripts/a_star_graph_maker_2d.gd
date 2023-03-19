@@ -1,4 +1,5 @@
-extends Node
+class_name AStarGraphMaker2D
+extends Node2D
 
 ## Creates a graph for the A* path finding algorithm based on a tilemap.
 ##
@@ -10,8 +11,20 @@ extends Node
 signal node_path_created(node_path: Array[Vector2i])
 
 
-# Neighbors are sorted by clockwise order from the right.
-const CELL_NEIGHBORS_TO_CHECK = [
+# The value of one G cell away from a cell.
+const NEIGHBOR_G_VALUE: int = 10
+# The G value of one diagonal cell away from a cell.
+# Approximated with pythagoras value.
+const DIAGONAL_G_VALUE: int = 14
+
+
+## The tilemap to generate the graph from.
+@export var tilemap: TileMap
+## Name of the custom data label that determines if a cell can be included in
+## the graph. Must be a `bool` type custom label.
+@export var allowed_tiles: String
+## Neighbors are sorted by clockwise order from the right.
+@export var cell_neighbors_to_check: Array[TileSet.CellNeighbor] = [
 	TileSet.CELL_NEIGHBOR_RIGHT_SIDE,
 #	TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_CORNER, 
 	TileSet.CELL_NEIGHBOR_BOTTOM_SIDE,
@@ -23,28 +36,10 @@ const CELL_NEIGHBORS_TO_CHECK = [
 ]
 
 
-## The tilemap to generate the graph from.
-@export var tilemap: TileMap
-# Name of the custom data label that determines if a cell can be included in
-# the graph. Must be a `bool` type custom label.
-@export var allowed_tiles: String
-# The resource to store the graph information.
-@export var a_star_graph_resource: AStarGraph
-# The value of one G cell away from a cell.
-@export var neighbor_g_cell_value: int = 10
-# The G value of one diagonal cell away from a cell.
-# Approximated with pythagoras value.
-@export var diagonal_g_cell_value: int = 14
-@export var player_resource: PlayerResource
-
-
 # Creates a graph.
 # Based on A* Pathfinding (E01: algorithm explanation) by Sebastian Lague.
 # https://www.youtube.com/watch?v=-L-WgKMFuhE
-func _create_graph(
-	start_cell: Vector2i,
-	end_cell: Vector2i,
-	layer: int):
+func create_graph(start_cell: Vector2i, end_cell: Vector2i, layer: int):
 	# Set of nodes to be evaluated
 	var nodes_to_be_evaluated_heap = minheap.new()
 	nodes_to_be_evaluated_heap.insert(
@@ -52,9 +47,9 @@ func _create_graph(
 		"f_cost": 0,
 		"parent": null,
 		"evaluated": false})
-		
+
 	var node_evaluation_dict = {}
-	
+
 	# We set the current node to the start just for the first iteration
 	var current_node = {
 		"cell": start_cell,
@@ -67,26 +62,26 @@ func _create_graph(
 		current_node = nodes_to_be_evaluated_heap.remove()
 		current_node["evaluated"] = true
 		node_evaluation_dict[current_node["cell"]] = current_node
-		
+
 		if current_node["cell"] == end_cell:
 			break
-		
-		for cell_neighbor in CELL_NEIGHBORS_TO_CHECK:
+
+		for cell_neighbor in cell_neighbors_to_check:
 			var cell_neighbor_position = tilemap.get_neighbor_cell(current_node["cell"], cell_neighbor)
 			var neighbor_cell_data = tilemap.get_cell_tile_data(layer, cell_neighbor_position)
-			
+
 			if cell_neighbor_position in node_evaluation_dict and node_evaluation_dict[cell_neighbor_position]["evaluated"]:
 				continue
-				
+
 			if allowed_tiles != null and not neighbor_cell_data.get_custom_data(allowed_tiles):
 				continue
-				
+
 			var f_cost = _calculate_f_cost(
 				cell_neighbor_position,
 				current_node["cell"],
 				end_cell,
 				current_node["f_cost"])
-				
+
 			if (cell_neighbor_position not in node_evaluation_dict 
 				or f_cost < node_evaluation_dict[cell_neighbor_position]["f_cost"]):
 					var new_cell = {
@@ -97,7 +92,7 @@ func _create_graph(
 					if cell_neighbor_position not in node_evaluation_dict:
 						nodes_to_be_evaluated_heap.insert(new_cell)
 					node_evaluation_dict[cell_neighbor_position] = new_cell
-	
+
 	var path_node = current_node
 	var node_path = []
 	tilemap.clear_layer(2)
@@ -106,7 +101,7 @@ func _create_graph(
 		tilemap.set_cell(2, path_node["cell"], 2, Vector2i(1, 0))
 		path_node = node_evaluation_dict[path_node["parent"]]
 	node_path.reverse()
-	node_path_created.emit(node_path)
+	return node_path
 
 
 func _calculate_f_cost(
@@ -118,21 +113,17 @@ func _calculate_f_cost(
 		# If one of the coords is the same, then we are right next to the
 		# starting cell.
 		if cell.x == starting_cell.x or cell.y == starting_cell.y:
-			final_f_cost += neighbor_g_cell_value
+			final_f_cost += NEIGHBOR_G_VALUE
 		else:
-			final_f_cost += diagonal_g_cell_value
+			final_f_cost += DIAGONAL_G_VALUE
 		
 		var distance_vector = (target_cell - cell).abs()
 		# Calculate the smaller distance between rise vs run to see how many
 		# diagonals we have to move
 		var diagonals_to_move = mini(distance_vector.x, distance_vector.y)
-		final_f_cost += diagonals_to_move * diagonal_g_cell_value
+		final_f_cost += diagonals_to_move * DIAGONAL_G_VALUE
 		
 		var neighbors_to_move = max(distance_vector.x, distance_vector.y) - diagonals_to_move
-		final_f_cost += neighbors_to_move * neighbor_g_cell_value
+		final_f_cost += neighbors_to_move * NEIGHBOR_G_VALUE
 		
 		return final_f_cost
-
-
-func _on_mouse_hover_node_cell_clicked(cell):
-	_create_graph(player_resource.cell, cell, 0)

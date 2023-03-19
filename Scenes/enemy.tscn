@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://fnrfm3nwg8h3"]
+
+[ext_resource type="Script" path="res://Scripts/a_star_graph_maker_2d.gd" id="1_tx3kq"]
+[ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_xgbkr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1n57r"]
+size = Vector2(16, 16)
+
+[node name="Enemy" type="CharacterBody2D" groups=["Enemies"]]
+position = Vector2(-24, 8)
+script = ExtResource("1_xgbkr")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1n57r")
+
+[node name="AStarGraphMaker2D" type="Node2D" parent="."]
+script = ExtResource("1_tx3kq")

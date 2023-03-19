@@ -7,5 +7,5 @@
 script = ExtResource("1_1fhxl")
 pickup_texture = ExtResource("1_holut")
 mask = 8
-x_offset = 4
-y_offset = -10
+x_offset = 5
+y_offset = -9

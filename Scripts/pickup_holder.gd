@@ -2,7 +2,6 @@ class_name PickupHolder
 extends Node2D
 
 func pick_up(pickup_2d: Pickup2D):
-	print("picked up ", pickup_2d)
 	pickup_2d.get_parent().call_deferred("remove_child", pickup_2d)
 	call_deferred("add_child", pickup_2d)
 	pickup_2d.position = position + Vector2(

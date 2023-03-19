@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bu5xp5yyr337h"]
+
+[ext_resource type="Script" path="res://Scripts/a_star_graph_maker_2d.gd" id="1_uhspc"]
+
+[node name="AStarGraphMaker" type="Node2D" node_paths=PackedStringArray("tilemap")]
+script = ExtResource("1_uhspc")
+tilemap = NodePath("../TileMap")
+allowed_tiles = "Moveable"
