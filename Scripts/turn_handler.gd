@@ -38,9 +38,8 @@ func set_turn(turn_group: StringName):
 func _handle_turn_ended(character: Node2D):
 	turn_group_characters[current_turn][character]["ended_turn"] = true
 	var characters = turn_group_characters[current_turn].values()
-	if (characters.values()
-			.map(func(values): return values["ended_turn"])
-			.all()):
+	if (characters.map(func(values): return values["ended_turn"])
+			.all(func(value): return value)):
 		_go_next_turn()
 
 
@@ -51,6 +50,7 @@ func _go_next_turn():
 		if turn_index + 1 < turn_groups.size() 
 		else turn_groups[0])
 	_initialize_turn_group(next_turn)
+	print("Going to turn for ", next_turn)
 	current_turn = next_turn
 
 

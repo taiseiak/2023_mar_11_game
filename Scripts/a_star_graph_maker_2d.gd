@@ -98,7 +98,7 @@ func create_graph(start_cell: Vector2i, end_cell: Vector2i, layer: int):
 	tilemap.clear_layer(2)
 	while path_node["parent"] != null:
 		node_path.append(path_node["cell"])
-		tilemap.set_cell(2, path_node["cell"], 2, Vector2i(1, 0))
+#		tilemap.set_cell(2, path_node["cell"], 2, Vector2i(1, 0))
 		path_node = node_evaluation_dict[path_node["parent"]]
 	node_path.reverse()
 	return node_path

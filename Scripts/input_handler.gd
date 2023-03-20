@@ -13,8 +13,10 @@ func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		var cell_at_mouse_motion = tilemap.local_to_map(
 				tilemap.get_local_mouse_position())
-		var temp = [cell_at_mouse_motion]
-		tilemap.highlight_cells([cell_at_mouse_motion])
+		Events.cell_hovered.emit(cell_at_mouse_motion)
+#		var temp = [cell_at_mouse_motion]
+		tilemap.highlight_cells([cell_at_mouse_motion],
+				tilemap.SELECTION_LAYER)
 
 	if event.is_action_pressed("select"):
 		var cell_at_mouse_motion = tilemap.local_to_map(
