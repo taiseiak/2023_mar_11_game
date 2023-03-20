@@ -41,6 +41,10 @@ func _set_my_turn():
 	_actions = max_actions
 
 
+func _handle_cell_selection(cell: Vector2i):
+	_move_to_cell(cell)
+
+
 func _move_to_cell(cell: Vector2i):
 	if _actions <= 0:
 		return
