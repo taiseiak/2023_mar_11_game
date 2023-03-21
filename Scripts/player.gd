@@ -5,13 +5,14 @@ extends CharacterBody2D
 signal turn_ended(character: Node)
 
 
-@export var tilemap: TileMap
+@export var tilemap: HighlightTileMap
 @export var player_resource: PlayerResource
 ## The maximum number of actions the character has.
 ##
 ## Moving 1 cell = 1 action
 ## Attacking once = 1 action
 @export var max_actions: int = 5
+
 
 var _tween: Tween
 var _is_my_turn: bool = false
@@ -26,8 +27,7 @@ func _ready():
 					_set_my_turn())
 	Events.cell_hovered.connect(
 			func(cell):
-				_highlight_path_to_cell(cell,
-					tilemap.PATH_HIGHLIGHT_LAYER))
+				_highlight_path_to_cell(cell, tilemap.PATH_HIGHLIGHT_LAYER))
 	Events.cell_selected.connect(
 			func(cell):
 				if _is_my_turn:
@@ -81,6 +81,7 @@ func _move_to_cell(cell: Vector2i):
 		_actions -= 1
 		if _actions <= 0:
 			turn_ended.emit(self)
+			tilemap.clear_highlight_cells()
 			break
 
 	$AsepriteAnimationPlayer.play("Idle")

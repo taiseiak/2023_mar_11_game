@@ -1,8 +1,13 @@
+class_name Enemy
 extends CharacterBody2D
+
+
+@export var character_resource: CharacterResource
+@export var turn_handler: TurnHandler
 
 @export_category("AStarGraphMaker2D exports")
 ## The tilemap to generate the graph from.
-@export var tilemap: TileMap
+@export var tilemap: HighlightTileMap
 ## Name of the custom data label that determines if a cell can be included in
 ## the graph. Must be a `bool` type custom label.
 @export var allowed_tiles: String
@@ -18,7 +23,20 @@ extends CharacterBody2D
 #	TileSet.CELL_NEIGHBOR_TOP_RIGHT_CORNER
 ]
 
+
+@onready var _player_resource: PlayerResource = Constants.PLAYER_RESOURCE
+@onready var _a_star_graph_maker: AStarGraphMaker2D = $AStarGraphMaker2D
+
+
 func _ready():
-	$AStarGraphMaker2D.tilemap = tilemap
-	$AStarGraphMaker2D.allowed_tiles = allowed_tiles
-	$AStarGraphMaker2D.cell_neighbors_to_check = cell_neighbors_to_check
+	_a_star_graph_maker.tilemap = tilemap
+	_a_star_graph_maker.allowed_tiles = allowed_tiles
+	_a_star_graph_maker.cell_neighbors_to_check = cell_neighbors_to_check
+	print(character_resource.turn_group)
+	turn_handler.register_character(self, character_resource.turn_group)
+	turn_handler.turn_changed.connect(_handle_turn)
+
+
+func _handle_turn():
+	var cell_to_move_to = _player_resource.cell
+	var current_cell = tilemap.local_to_map(position)

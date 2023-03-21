@@ -1,10 +1,10 @@
-[gd_scene load_steps=27 format=3 uid="uid://da4g2j3his56o"]
+[gd_scene load_steps=30 format=3 uid="uid://dl6tn2pvd5dje"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_0v0p1"]
 [ext_resource type="TileSet" uid="uid://w22ttvploon4" path="res://Tilesets/a-star_tileset.tres" id="1_h7tmq"]
 [ext_resource type="Texture2D" uid="uid://bc0ynokfxx437" path="res://PNGs/2023-mar-11-character.png" id="2_7lhd2"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="2_ck81m"]
-[ext_resource type="Script" path="res://Scripts/tile_map.gd" id="2_o2nfq"]
+[ext_resource type="Script" path="res://Scripts/highlight_tile_map.gd" id="3_6cuhn"]
 [ext_resource type="Resource" uid="uid://diajsj1xxbp2x" path="res://Resources/player_resource.tres" id="4_bop26"]
 [ext_resource type="PackedScene" uid="uid://bu5xp5yyr337h" path="res://Scenes/a_star_graph_maker.tscn" id="4_v1e46"]
 [ext_resource type="Texture2D" uid="uid://cju37jn6dd21m" path="res://2023-mar-11-character.png" id="5_babgn"]
@@ -13,8 +13,11 @@
 [ext_resource type="PackedScene" uid="uid://b3v0v0asdnqom" path="res://Scenes/pickup_2d.tscn" id="8_cu0ha"]
 [ext_resource type="Resource" uid="uid://boqf80k31o8gi" path="res://Resources/sword.tres" id="10_613t6"]
 [ext_resource type="PackedScene" uid="uid://fnrfm3nwg8h3" path="res://Scenes/enemy.tscn" id="11_nj86q"]
-[ext_resource type="Texture2D" uid="uid://bk2vkiqs8jafu" path="res://2023-mar-11-enemy.png" id="12_vkp3t"]
+[ext_resource type="Texture2D" uid="uid://bk2vkiqs8jafu" path="res:///2023-mar-11-enemy.png" id="12_vkp3t"]
 [ext_resource type="Script" path="res://Scripts/turn_handler.gd" id="13_f4kkf"]
+[ext_resource type="Theme" uid="uid://mwkasgnsje4a" path="res://Theme/default_theme.tres" id="16_3qsuf"]
+[ext_resource type="Script" path="res://Scripts/hud.gd" id="16_q10om"]
+[ext_resource type="Resource" uid="uid://dm2oo7828ypak" path="res://Resources/basic_enemy.tres" id="17_vm72k"]
 
 [sub_resource type="Animation" id="Animation_hx5dd"]
 length = 1.002
@@ -372,70 +375,7 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2lols"]
 size = Vector2(16, 16)
 
-[sub_resource type="Animation" id="Animation_yt2tr"]
-length = 0.835
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("12_vkp3t")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:hframes")
-tracks/1/interp = 1
-tracks/1/loop_wrap = false
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [4]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:vframes")
-tracks/2/interp = 1
-tracks/2/loop_wrap = false
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [3]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite2D:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = false
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Sprite2D:frame")
-tracks/4/interp = 1
-tracks/4/loop_wrap = false
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.167, 0.334, 0.501, 0.668),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [6, 7, 8, 9, 10]
-}
-
-[sub_resource type="Animation" id="Animation_cdog6"]
+[sub_resource type="Animation" id="Animation_uvy0f"]
 length = 0.334
 loop_mode = 1
 tracks/0/type = "value"
@@ -499,7 +439,7 @@ tracks/4/keys = {
 "values": [0, 1]
 }
 
-[sub_resource type="Animation" id="Animation_rwb1e"]
+[sub_resource type="Animation" id="Animation_yqnim"]
 length = 0.668
 loop_mode = 1
 tracks/0/type = "value"
@@ -563,11 +503,74 @@ tracks/4/keys = {
 "values": [2, 3, 4, 5]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_2vrcn"]
+[sub_resource type="Animation" id="Animation_kcv4s"]
+length = 0.835
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("12_vkp3t")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = false
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.167, 0.334, 0.501, 0.668),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 8, 9, 10]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bp4wh"]
 _data = {
-"Attack": SubResource("Animation_yt2tr"),
-"Idle": SubResource("Animation_cdog6"),
-"Walk": SubResource("Animation_rwb1e")
+"Attack": SubResource("Animation_kcv4s"),
+"Idle": SubResource("Animation_uvy0f"),
+"Walk": SubResource("Animation_yqnim")
 }
 
 [node name="Main" type="Node2D"]
@@ -593,7 +596,7 @@ layer_2/y_sort_enabled = false
 layer_2/y_sort_origin = 0
 layer_2/z_index = 0
 layer_2/tile_data = PackedInt32Array()
-script = ExtResource("2_o2nfq")
+script = ExtResource("3_6cuhn")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(5, 5)
@@ -650,22 +653,40 @@ tilemap = NodePath("../TileMap")
 position = Vector2(24, -24)
 pickup_resource = ExtResource("10_613t6")
 
-[node name="Enemy" parent="." node_paths=PackedStringArray("tilemap") instance=ExtResource("11_nj86q")]
+[node name="TurnHandler" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("13_f4kkf")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("16_q10om")
+
+[node name="TurnLabel" type="Label" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -10.0
+offset_right = 16.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("16_3qsuf")
+theme_override_font_sizes/font_size = 100
+text = "___ TURN"
+
+[node name="Enemy" parent="." node_paths=PackedStringArray("turn_handler", "tilemap") instance=ExtResource("11_nj86q")]
+character_resource = ExtResource("17_vm72k")
+turn_handler = NodePath("../TurnHandler")
 tilemap = NodePath("../TileMap")
 allowed_tiles = "Moveable"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Enemy"]
-autoplay = "Idle"
-libraries = {
-"": SubResource("AnimationLibrary_2vrcn")
-}
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy"]
 texture_filter = 1
 texture = ExtResource("12_vkp3t")
 hframes = 4
 vframes = 3
-frame = 6
 metadata/_aseprite_wizard_config_ = {
 "layer": "",
 "o_ex_p": "",
@@ -677,5 +698,11 @@ metadata/_aseprite_wizard_config_ = {
 "source": "res://Aseprite/2023-mar-11-enemy.ase"
 }
 
-[node name="TurnHandler" type="Node2D" parent="."]
-script = ExtResource("13_f4kkf")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Enemy"]
+autoplay = "Idle"
+libraries = {
+"": SubResource("AnimationLibrary_bp4wh")
+}
+
+[connection signal="turn_changed" from="TurnHandler" to="InputHandler" method="_on_turn_handler_turn_changed"]
+[connection signal="turn_changed" from="TurnHandler" to="HUD" method="_on_turn_handler_turn_changed"]

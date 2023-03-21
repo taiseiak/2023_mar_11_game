@@ -1,4 +1,8 @@
+class_name TurnHandler
 extends Node2D
+
+
+signal turn_changed(turn_group: StringName)
 
 
 ## Groups that have turns.
@@ -12,6 +16,7 @@ var current_turn: StringName:
 	set(_current_turn):
 		current_turn = _current_turn
 		Events.turn_changed.emit(current_turn)
+		turn_changed.emit(current_turn)
 var turn_group_characters: Dictionary
 
 
