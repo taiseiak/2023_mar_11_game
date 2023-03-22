@@ -3,6 +3,7 @@ extends Node2D
 
 
 signal turn_changed(turn_group: StringName)
+signal game_ended(winner_group: StringName)
 
 
 ## Groups that have turns.
@@ -30,6 +31,7 @@ func _ready():
 func register_character(character: Node2D, turn_group: StringName):
 	assert(turn_group in turn_groups)
 	assert(character.has_signal("turn_ended"))
+	assert(character.turn_ended)
 	
 	character.turn_ended.connect(_handle_turn_ended)
 	turn_group_characters[turn_group][character] = {"ended_turn": true}
@@ -55,7 +57,6 @@ func _go_next_turn():
 		if turn_index + 1 < turn_groups.size() 
 		else turn_groups[0])
 	_initialize_turn_group(next_turn)
-	print("Going to turn for ", next_turn)
 	current_turn = next_turn
 
 
@@ -65,3 +66,13 @@ func _initialize_turn_group(turn_group: StringName):
 		if not character.is_inside_tree():
 			characters_to_initialize.erase(character)
 		characters_to_initialize[character]["ended_turn"] = false
+
+
+func _on_enemy_attacked_player():
+	game_ended.emit("Enemies")
+	queue_free()
+
+
+func _on_player_attacked_enemy(cell_position):
+	game_ended.emit(Constants.PLAYER_TURN_GROUP)
+	queue_free()

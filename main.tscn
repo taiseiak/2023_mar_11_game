@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dl6tn2pvd5dje"]
+[gd_scene load_steps=30 format=3 uid="uid://bq1sb473y4dyk"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_0v0p1"]
 [ext_resource type="TileSet" uid="uid://w22ttvploon4" path="res://Tilesets/a-star_tileset.tres" id="1_h7tmq"]
@@ -13,11 +13,11 @@
 [ext_resource type="PackedScene" uid="uid://b3v0v0asdnqom" path="res://Scenes/pickup_2d.tscn" id="8_cu0ha"]
 [ext_resource type="Resource" uid="uid://boqf80k31o8gi" path="res://Resources/sword.tres" id="10_613t6"]
 [ext_resource type="PackedScene" uid="uid://fnrfm3nwg8h3" path="res://Scenes/enemy.tscn" id="11_nj86q"]
-[ext_resource type="Texture2D" uid="uid://bk2vkiqs8jafu" path="res:///2023-mar-11-enemy.png" id="12_vkp3t"]
+[ext_resource type="Texture2D" uid="uid://bk2vkiqs8jafu" path="res://2023-mar-11-enemy.png" id="12_vkp3t"]
 [ext_resource type="Script" path="res://Scripts/turn_handler.gd" id="13_f4kkf"]
 [ext_resource type="Theme" uid="uid://mwkasgnsje4a" path="res://Theme/default_theme.tres" id="16_3qsuf"]
 [ext_resource type="Script" path="res://Scripts/hud.gd" id="16_q10om"]
-[ext_resource type="Resource" uid="uid://dm2oo7828ypak" path="res://Resources/basic_enemy.tres" id="17_vm72k"]
+[ext_resource type="Resource" uid="uid://dm2oo7828ypak" path="res://Resources/Enemy resources/basic_enemy.tres" id="17_toosd"]
 
 [sub_resource type="Animation" id="Animation_hx5dd"]
 length = 1.002
@@ -375,6 +375,69 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2lols"]
 size = Vector2(16, 16)
 
+[sub_resource type="Animation" id="Animation_kcv4s"]
+length = 0.835
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("12_vkp3t")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = false
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.167, 0.334, 0.501, 0.668),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 8, 9, 10]
+}
+
 [sub_resource type="Animation" id="Animation_uvy0f"]
 length = 0.334
 loop_mode = 1
@@ -503,69 +566,6 @@ tracks/4/keys = {
 "values": [2, 3, 4, 5]
 }
 
-[sub_resource type="Animation" id="Animation_kcv4s"]
-length = 0.835
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("12_vkp3t")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:hframes")
-tracks/1/interp = 1
-tracks/1/loop_wrap = false
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [4]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:vframes")
-tracks/2/interp = 1
-tracks/2/loop_wrap = false
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [3]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite2D:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = false
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Sprite2D:frame")
-tracks/4/interp = 1
-tracks/4/loop_wrap = false
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.167, 0.334, 0.501, 0.668),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [6, 7, 8, 9, 10]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bp4wh"]
 _data = {
 "Attack": SubResource("Animation_kcv4s"),
@@ -677,7 +677,7 @@ theme_override_font_sizes/font_size = 100
 text = "___ TURN"
 
 [node name="Enemy" parent="." node_paths=PackedStringArray("turn_handler", "tilemap") instance=ExtResource("11_nj86q")]
-character_resource = ExtResource("17_vm72k")
+character_resource = ExtResource("17_toosd")
 turn_handler = NodePath("../TurnHandler")
 tilemap = NodePath("../TileMap")
 allowed_tiles = "Moveable"
@@ -704,5 +704,12 @@ libraries = {
 "": SubResource("AnimationLibrary_bp4wh")
 }
 
+[connection signal="attacked_enemy" from="Player" to="TurnHandler" method="_on_player_attacked_enemy"]
+[connection signal="attacked_enemy" from="Player" to="Enemy" method="_on_player_attacked_enemy"]
+[connection signal="game_ended" from="TurnHandler" to="Player" method="_on_turn_handler_game_ended"]
+[connection signal="game_ended" from="TurnHandler" to="HUD" method="_on_turn_handler_game_ended"]
 [connection signal="turn_changed" from="TurnHandler" to="InputHandler" method="_on_turn_handler_turn_changed"]
 [connection signal="turn_changed" from="TurnHandler" to="HUD" method="_on_turn_handler_turn_changed"]
+[connection signal="turn_animation_finished" from="HUD" to="Player" method="_on_hud_turn_animation_finished"]
+[connection signal="turn_animation_finished" from="HUD" to="Enemy" method="_on_hud_turn_animation_finished"]
+[connection signal="attacked_player" from="Enemy" to="TurnHandler" method="_on_enemy_attacked_player"]
