@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://mwkasgnsje4a"]
+
+[ext_resource type="FontFile" uid="uid://c4y7ec1wjkt3x" path="res://Theme/ark-pixel-font-10px-monospaced-ttf-v2023.03.16/ark-pixel-10px-monospaced-latin.ttf" id="1_rfjng"]
+
+[resource]
+default_font = ExtResource("1_rfjng")

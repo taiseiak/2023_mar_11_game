@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="CharacterResource" load_steps=2 format=3 uid="uid://dm2oo7828ypak"]
+
+[ext_resource type="Script" path="res://Scripts/character_resource.gd" id="1_cvjts"]
+
+[resource]
+script = ExtResource("1_cvjts")
+max_actions = 3
+turn_group = &"Enemies"
