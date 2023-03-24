@@ -45,6 +45,7 @@ func create_graph(start_cell: Vector2i, end_cell: Vector2i, layer: int):
 	nodes_to_be_evaluated_heap.insert(
 		{"cell": start_cell,
 		"f_cost": 0,
+		"g_cost": 0,
 		"parent": null,
 		"evaluated": false})
 
@@ -54,6 +55,7 @@ func create_graph(start_cell: Vector2i, end_cell: Vector2i, layer: int):
 	var current_node = {
 		"cell": start_cell,
 		"f_cost": 0,
+		"g_cost": 0,
 		"parent": null,
 		"evaluated": false}
 
@@ -76,17 +78,18 @@ func create_graph(start_cell: Vector2i, end_cell: Vector2i, layer: int):
 			if allowed_tiles != null and not neighbor_cell_data.get_custom_data(allowed_tiles):
 				continue
 
-			var f_cost = _calculate_f_cost(
+			var cost_array = _calculate_f_cost(
 				cell_neighbor_position,
 				current_node["cell"],
 				end_cell,
-				current_node["f_cost"])
+				current_node["g_cost"])
 
 			if (cell_neighbor_position not in node_evaluation_dict 
-				or f_cost < node_evaluation_dict[cell_neighbor_position]["f_cost"]):
+				or cost_array[0] < node_evaluation_dict[cell_neighbor_position]["f_cost"]):
 					var new_cell = {
 						"cell": cell_neighbor_position,
-						"f_cost": f_cost,
+						"f_cost": cost_array[0],
+						"g_cost": cost_array[1],
 						"parent": current_node["cell"],
 						"evaluated": false}
 					if cell_neighbor_position not in node_evaluation_dict:
@@ -108,8 +111,8 @@ func _calculate_f_cost(
 	cell: Vector2i,
 	starting_cell: Vector2i,
 	target_cell: Vector2i,
-	f_cost: int = 0):
-		var final_f_cost = f_cost
+	g_cost: int = 0) -> Array:
+		var final_f_cost = g_cost
 		# If one of the coords is the same, then we are right next to the
 		# starting cell.
 		if cell.x == starting_cell.x or cell.y == starting_cell.y:
@@ -126,4 +129,4 @@ func _calculate_f_cost(
 		var neighbors_to_move = max(distance_vector.x, distance_vector.y) - diagonals_to_move
 		final_f_cost += neighbors_to_move * NEIGHBOR_G_VALUE
 		
-		return final_f_cost
+		return [final_f_cost, (diagonals_to_move * DIAGONAL_G_VALUE + neighbors_to_move * NEIGHBOR_G_VALUE)]

@@ -608,7 +608,7 @@ collision_mask = 6
 script = ExtResource("4_gsjat")
 tilemap = NodePath("../TileMap")
 player_resource = ExtResource("5_uyv3u")
-max_actions = 3
+max_actions = 10
 
 [node name="AStarGraphMaker" parent="Player" node_paths=PackedStringArray("tilemap") instance=ExtResource("6_b30ud")]
 position = Vector2(-8, -8)
